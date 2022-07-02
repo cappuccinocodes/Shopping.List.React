@@ -6,6 +6,7 @@ namespace Shopping.List.React.Api.Data
     public interface IShoppingListRepository
     {
 		List<ShoppingListItem> Get();
+        void Insert(ShoppingListItem item);
     }
 
 	public class ShoppingListRepository: IShoppingListRepository
@@ -20,6 +21,12 @@ namespace Shopping.List.React.Api.Data
         public List<ShoppingListItem> Get()
         {
             return _context.ShoppingListItems.ToList();
+        }
+
+        public void Insert(ShoppingListItem item)
+        {
+            _context.ShoppingListItems.Add(item);
+            _context.SaveChanges();
         }
     }
 }
