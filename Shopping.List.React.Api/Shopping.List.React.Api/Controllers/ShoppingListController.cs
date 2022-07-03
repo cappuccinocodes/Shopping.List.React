@@ -37,6 +37,21 @@ namespace Shopping.List.React.Api.Controllers
 
             return Ok(new { Success = true });
         }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                _shoppingListRepository.Delete(id);
+            }
+            catch
+            {
+                return Ok(new { Success = false });
+            }
+
+            return Ok(new { Success = true });
+        }
     }
 }
 
