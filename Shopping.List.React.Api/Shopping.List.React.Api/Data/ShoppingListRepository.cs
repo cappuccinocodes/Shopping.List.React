@@ -5,14 +5,14 @@ namespace Shopping.List.React.Api.Data
 {
     public interface IShoppingListRepository
     {
-		List<ShoppingListItem> Get();
+        List<ShoppingListItem> Get();
         ShoppingListItem GetById();
         void Insert(ShoppingListItem item);
         void Delete(int id);
     }
 
-	public class ShoppingListRepository: IShoppingListRepository
-	{
+    public class ShoppingListRepository : IShoppingListRepository
+    {
         private readonly DataContext _context;
 
         public ShoppingListRepository(DataContext context)
@@ -40,9 +40,16 @@ namespace Shopping.List.React.Api.Data
 
         public void Insert(ShoppingListItem item)
         {
-            item.Id = null;
+            if (item.Id > 0)
+            {
+                _context.ShoppingListItems.Update(item);
+            }
+            else
+            {
+                item.Id = null;
+                _context.ShoppingListItems.Add(item);
+            }
 
-            _context.ShoppingListItems.Add(item);
             _context.SaveChanges();
         }
     }

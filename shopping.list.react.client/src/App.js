@@ -5,6 +5,8 @@ import ShoppingListForm from "./Components/ShoppingListForm/ShoppingListForm";
 
 function App() {
   const [list, setShoppingList] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [itemToEdit, setItemToEdit] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -16,6 +18,17 @@ function App() {
     });
     const data = await response.json();
     console.log(data);
+  }
+
+  function populateFormHandler(itemToEdit) {
+    console.log(itemToEdit);
+    setItemToEdit(itemToEdit);
+    setIsEditing(true);
+  }
+
+  function cancelEditingHandler() {
+    console.log('clicked');
+    setIsEditing(false);
   }
 
   const fetchShoppingList = useCallback(async () => {
@@ -57,7 +70,13 @@ function App() {
   let content = <p>Found no movies. </p>;
 
   if (list.length > 0) {
-    content = <ShoppingList items={list} onDeleteItem={deleteItemHandler} />;
+    content = (
+      <ShoppingList
+        items={list}
+        onDeleteItem={deleteItemHandler}
+        onEditItem={populateFormHandler}
+      />
+    );
   }
   if (error) {
     content = <p>{error}</p>;
@@ -69,7 +88,12 @@ function App() {
   return (
     <Fragment>
       <main>
-        <ShoppingListForm onAddItem={addItemHandler}></ShoppingListForm>
+        <ShoppingListForm
+          onCancelEditing={cancelEditingHandler}
+          onAddItem={addItemHandler}
+          isEditing={isEditing}
+          itemToEdit={itemToEdit}
+        ></ShoppingListForm>
         {content}
       </main>
     </Fragment>
