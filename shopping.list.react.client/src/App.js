@@ -8,6 +8,16 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  async function deleteItemHandler(id) {
+    console.log("grandpa" + id);
+    const response = await fetch("https://localhost:7010/ShoppingList", {
+      method: "DELETE",
+      body: id,
+    });
+    const data = await response.json();
+    console.log(data);
+  }
+
   const fetchShoppingList = useCallback(async () => {
     setIsLoading(true);
     setError(null);
@@ -47,7 +57,7 @@ function App() {
   let content = <p>Found no movies. </p>;
 
   if (list.length > 0) {
-    content = <ShoppingList items={list} />;
+    content = <ShoppingList items={list} onDeleteItem={deleteItemHandler} />;
   }
   if (error) {
     content = <p>{error}</p>;
