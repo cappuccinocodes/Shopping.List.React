@@ -25,6 +25,8 @@ namespace Shopping.List.React.Api.Data
 
         public void Insert(ShoppingListItem item)
         {
+            item.Id = null;
+
             _context.ShoppingListItems.Add(item);
             _context.SaveChanges();
         }
