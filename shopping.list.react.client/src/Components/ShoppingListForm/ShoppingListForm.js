@@ -17,6 +17,8 @@ function ShoppingListForm(props) {
       isCollected: false,
     };
 
+    console.log('item  ' + item.name)
+    console.log('id  ' + item.id)
     props.onAddItem(item);
   }
 
@@ -38,7 +40,7 @@ function ShoppingListForm(props) {
         <Form.Control
           type="hidden"
           placeholder="Shopping Item"
-          defaultValue={props.itemToEdit['id']}
+          defaultValue={props.itemToEdit['id'] ?? 0}
           ref={idRef}
         />
       </Form.Group>
