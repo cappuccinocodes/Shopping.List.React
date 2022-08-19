@@ -4,11 +4,11 @@ import Button from "react-bootstrap/button";
 import Form from "react-bootstrap/form";
 
 function ShoppingListForm(props) {
+  console.log('isEditing child' + props.isEditing)
   const nameRef = useRef("");
   const idRef = useRef(0);
 
   function submitHandler(event) {
-    console.log("clicked");
     event.preventDefault();
 
     const item = {
@@ -17,13 +17,10 @@ function ShoppingListForm(props) {
       isCollected: false,
     };
 
-    console.log('item  ' + item.name)
-    console.log('id  ' + item.id)
     props.onAddItem(item);
   }
 
   function cancelEditingHandler(event) {
-      console.log('clicked');
       event.preventDefault();
       props.onCancelEditing();
   }

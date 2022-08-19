@@ -11,23 +11,23 @@ function App() {
   const [error, setError] = useState(null);
 
   async function deleteItemHandler(id) {
-    console.log("grandpa" + id);
-    const response = await fetch("https://localhost:7010/ShoppingList", {
+    let item = {id: id.toString(), name: "", isCollected: false}
+    console.log('item ' + JSON.stringify(item))
+    console.log("deleteItemHandlerId = " + id);
+    const response = await fetch(`https://localhost:7010/ShoppingList?id=${id}`, {
       method: "DELETE",
-      body: id,
     });
-    const data = await response.json();
-    console.log(data);
+    await response.json();
+    fetchShoppingList();
   }
 
   function populateFormHandler(itemToEdit) {
-    console.log(itemToEdit);
     setItemToEdit(itemToEdit);
     setIsEditing(true);
+    console.log('is Editing' + isEditing)
   }
 
   function cancelEditingHandler() {
-    console.log('clicked');
     setIsEditing(false);
   }
 
@@ -56,6 +56,7 @@ function App() {
   }, [fetchShoppingList]);
 
   async function addItemHandler(item) {
+    console.log('item ' + JSON.stringify(item));
     const response = await fetch("https://localhost:7010/ShoppingList", {
       method: "POST",
       body: JSON.stringify(item),
@@ -63,8 +64,9 @@ function App() {
         "Content-Type": "application/json",
       },
     });
-    const data = await response.json();
-    console.log(data);
+    await response.json();
+
+    fetchShoppingList();
   }
 
   let content = <p>Found no movies. </p>;
